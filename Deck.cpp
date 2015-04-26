@@ -78,14 +78,28 @@ int Player::sumHand()
 
 Deck::Deck(int numPlayers)
 {
-	players[numPlayers];
+	//players[numPlayers];
+	for(int i=0;i<numPlayers;i++)
+	{
+		players[i].sum =0;
+		for(int j=0; j<5; j++)
+		{
+			players[i].hand[j] = NULL;
+		}
+	}
+	cout << "Debug: after player setup" << endl;
 	topCard =0;
 	for(int i=0;i<4;i++)
 	{
 		for(int j=1;j<14;j++)
 		{
-			decklist[13*i+j-1].number = j;
-			decklist[13*i+j-1].suit = i;
+			Card *c = new Card;
+			c->number = j;
+			c->suit = i;
+			//decklist[13*i+j-1].number = j;
+			//decklist[13*i+j-1].suit = i;
+			decklist[13*i+j-1] = c;
+			cout << "Debug: decklist setting" << endl;
 			//decklist[13*i+j-1].shuffled = false;
 		}
 	}
@@ -124,9 +138,9 @@ void Deck::DealCards(int numPlayers)
 		}
 		else
 		{
-			players[i].hand[0] = &decklist[topCard];
+			players[i].hand[0] = decklist[topCard];
 			topCard++;
-			players[i].hand[1] = &decklist[topCard];
+			players[i].hand[1] = decklist[topCard];
 			topCard++;
 			for (int j=2; j<5;j++)
 			{
@@ -150,7 +164,7 @@ bool Deck::hit(int playerInt)
 	{
 		i++;
 	}
-	p->hand[i] = &decklist[topCard];
+	p->hand[i] = decklist[topCard];
 	topCard++;
 	if(p->sumHand() < 21)
 	{
