@@ -1,6 +1,7 @@
 #ifndef DECK_H
 #define DECK_H
 
+#include <vector>
 using namespace std;
 struct Card{
     int number;
@@ -21,6 +22,7 @@ struct Player{
     bool ai=true;
     int sum;
     int sumHand();
+    int lastSummed;
     Player(){};
     Player(string inname, int innumber){
         number = innumber;
@@ -42,7 +44,7 @@ public:
     Player players[5];
 
 private:
-    Card decklist[52];
+    vector<Card> decklist;
     int topCard;
 };
 

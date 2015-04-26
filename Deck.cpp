@@ -3,10 +3,12 @@
 
 #include <iostream>
 #include <algorithm>
-//#include <vector>
+#include <vector>
 #include <array>
 #include <random>
-#include <chrono>
+#include <cstdlib>
+#include <ctime>
+//#include <chrono>
 #include "Deck.h"
 
 
@@ -42,11 +44,11 @@ int Player::sumHand()
 					}
 					else
 					{
-						string input;
 						ace:
+						string input;
 						cout << "Would you like your ace to count as 1 or 11?\n";
 						cout << "1. One\n2. Eleven" << endl;
-						cin >> input
+						cin >> input;
 						if(input == "1")
 						{
 							sum += 1;
@@ -74,9 +76,8 @@ int Player::sumHand()
 	return sum;
 }
 
-Deck::Deck(int numPlayersInput)
+Deck::Deck(int numPlayers)
 {
-	numPlayers = numPlayersInput;
 	players[numPlayers];
 	topCard =0;
 	for(int i=0;i<4;i++)
@@ -85,7 +86,7 @@ Deck::Deck(int numPlayersInput)
 		{
 			decklist[13*i+j-1].number = j;
 			decklist[13*i+j-1].suit = i;
-			decklist[13*i+j-1].shuffled = false;
+			//decklist[13*i+j-1].shuffled = false;
 		}
 	}
 }
@@ -104,24 +105,28 @@ void Deck::shuffleDeck()
 		shuffledDeck[i]=unshuffledDeck[cardIndex];
 	}*/
 	
+	/*
 	unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();//found this method at http://www.cplusplus.com/reference/algorithm/shuffle/
 	shuffle(decklist.begin(),decklist.end(),std::default_random_engine(seed));
-	//Potential problem: May need to make it an array instead of a vector, but will need to test it before knowing.
+	*///Something is wrong with this method, so I'll try another one that uses vectors instead of arrays.
+	
+	srand(unsigned(time(0)));
+	random_shuffle(decklist.begin(), decklist.end());
 }
 
-void Deck::DealCards()
+void Deck::DealCards(int numPlayers)
 {
 	for(int i=0; i<numPlayers;i++)
 	{
 		if(topCard == 52)
 		{
-			cout << "Unable to deal. Ran out of cards."
+			cout << "Unable to deal. Ran out of cards.";
 		}
 		else
 		{
-			players[i].hand[0] = decklist[topCard];
+			players[i].hand[0] = &decklist[topCard];
 			topCard++;
-			players[i].hand[1] = decklist[topCard];
+			players[i].hand[1] = &decklist[topCard];
 			topCard++;
 			for (int j=2; j<5;j++)
 			{
@@ -136,20 +141,22 @@ void Deck::DealCards()
 {
 	
 }*/
-bool Deck::hit(Player p)
+bool Deck::hit(int playerInt)
 {
+	Player *p = new Player;
+	p = &players[playerInt];
 	int i = 2;
-	while(p.hand[i]!= NULL)
+	while(p->hand[i]!= NULL)
 	{
 		i++;
 	}
-	p.hand[i] = decklist[topCard];
+	p->hand[i] = &decklist[topCard];
 	topCard++;
-	if(p.sumHand() < 21)
+	if(p->sumHand() < 21)
 	{
 		return true;
 	}
-	else if(p.sumHand() == 21)
+	else if(p->sumHand() == 21)
 	{
 		//win(p);
 		return false;
@@ -161,5 +168,9 @@ bool Deck::hit(Player p)
 	}
 }
 
+void Deck::peek(){}
+void Deck::declare(){}
+void Deck::dealer(){}
+Deck::~Deck(){}
 
 
