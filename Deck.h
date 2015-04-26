@@ -44,7 +44,7 @@ public:
     Player players[5];
 
 private:
-    vector<Card> decklist;
+    vector<Card*> decklist;
     int topCard;
 };
 
