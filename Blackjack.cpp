@@ -27,20 +27,20 @@ int main(){
         hoomans=Players-AI;
         for(int i=0;i<hoomans;i++){
             Spot=rand()%Players-1;
-            d.player[Spot].ai=false;
+            d.players[Spot].ai=false; //Changed player to players
         }
     }
     else{
         for(int i=0;i<Players;i++){
-            d.player[i].ai=false;
+            d.players[i].ai=false; //Changed player to players
         }
     }
     d.DealCards(Players);
     for(int i=0;i<Players;i++){
         bool turn=true;
-        if(!d.player[i].ai){
+        if(!d.players[i].ai){ //Changed player to players
             while(turn){
-                cout<<"Player "<<i+1<<", your hand is "<<d.player[i].hand<<".\nWould you like to\n1.Hit\n2.Stay\n3.See what the other hands are"<<endl;
+                cout<<"Player "<<i+1<<", your hand is "<<d.players[i].hand<<".\nWould you like to\n1.Hit\n2.Stay\n3.See what the other hands are"<<endl; //Changed player to players
                 getline(cin,operation);
                 op=stoi(operation);
                 switch(op){
@@ -51,7 +51,7 @@ int main(){
                         turn=false;
                         break;
                     case 3:
-                        d.peek();
+                        d.peek(i); //supposed to input a value
                         break;
                     default:
                         cout<<"That is not a valid option."<<endl;
@@ -60,8 +60,8 @@ int main(){
         }
         else{
             while(turn){
-                cout<<"Player "<<i+1<<"'s hand is "<<d.player[i].hand<<endl;
-                if(d.player[i].sum()<17){
+                cout<<"Player "<<i+1<<"'s hand is "<<d.players[i].hand<<endl; //Changed player to players
+                if(d.players[i].sum()<17){ //Changed player to players
                     cout<<"Player "<<i+1<<" hits."<<endl;
                     turn=d.hit(i);
                 }
@@ -72,7 +72,7 @@ int main(){
             }
         }
     }
-    d.dealer();
-    d.declare();
+    //d.dealer(); doesn't exist?
+    d.declare(Players); //supposed to take in an int, not sure what it should take in, but hopefully a step in the right direction
     return 0;
 }
